@@ -1,5 +1,4 @@
-Download the repo\
-Compile using GCC:
+Download the repo and compile with GCC:
 ``` 
 gcc -o integration -fopenmp main.c trapezium.c simpson.c 
 ```
@@ -33,7 +32,7 @@ double trapezium(double from, double to, double n, double (*func)())
    	return  h*sum/2.0;
 }
 ```
-The directive "#pragma omp parallel for" divides work performed inside our for-loop amongst multiple threads. The critical region will need some kind of protection and to avoid race conditions we will use the following approache.
+The directive "#pragma omp parallel for" divides work performed inside our for-loop amongst multiple threads. The critical region will need some kind of protection and to avoid race conditions we will use the following approach.
 #### Critical:
 ```c 
     ...
@@ -52,7 +51,7 @@ Next, we will test the built-in reduction clause. This will take care of recurre
        		sum += 2.0*func(from+i*h);
 ```
 #### Divide Work by Thread ID:
-In this third test we will try a different approach by assigning a portion of the work to each thread based on their thread ID. In this case we will need to make some modifications. Here is the reformatted algorithm for numerical integration useing the trapezoid rule. 
+In this third test we will try a different approach by assigning a portion of the work to each thread based on their thread ID. In this case we will need to make some modifications. Here is the reformatted algorithm for numerical integration using the trapezoid rule. 
 ```c
 double trapezium_omp_shared(double from, double to, double n, double (*func)())
 {
@@ -97,7 +96,7 @@ Average computation time in seconds of 100 test cases.
 | Difference   |                | -181.176      | +127.611       | +126.465      |
 
 * Simply using #pragma omp parallel and defining critical regions with  #pragma omp critical caused a significant decrease in performance at 182% slower execution.
-* As we can see using openMP loop parallelism and the built-in reduction speeds up execution by 128%.
+* Using openMP loop parallelism and the built-in reduction speeds up execution by 128%.
 * Utilizing a shared workload construct by dividing work using thread IDs also offers a nearly identical performance advantage.
 
 ``` diff
