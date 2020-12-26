@@ -5,6 +5,8 @@ gcc -o integration -fopenmp main.c trapezium.c simpson.c
 
 # Parallel Numerical Integration with OpenMP
 
+In this example we will explore a couple of worksharing constructs using openMP, specifically loop parallelism followed by a more manual approach using thread IDs. 
+
 Consider the following algorithm for numerical integration using the trapezoidal rule.
 ```c 
 double trapezium(double from, double to, double n, double (*func)())
